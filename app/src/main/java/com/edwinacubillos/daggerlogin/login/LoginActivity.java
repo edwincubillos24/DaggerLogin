@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityMVP
     protected void onResume() {
         super.onResume();
         presenter.setView(this);
-       // presenter.getCurrentUser();
+        presenter.getCurrentUser();
     }
 
     @Override
