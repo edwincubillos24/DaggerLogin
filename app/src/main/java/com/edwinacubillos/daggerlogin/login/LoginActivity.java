@@ -9,14 +9,26 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.edwinacubillos.daggerlogin.R;
+import com.edwinacubillos.daggerlogin.http.TwitchAPI;
+import com.edwinacubillos.daggerlogin.http.twitch.Datum;
+import com.edwinacubillos.daggerlogin.http.twitch.Twitch;
 import com.edwinacubillos.daggerlogin.root.App;
 
+import java.util.List;
+
 import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity implements LoginActivityMVP.View {
 
     @Inject
     LoginActivityMVP.Presenter presenter;
+
+    @Inject
+    TwitchAPI twitchAPI;
 
     EditText firstName, lastName;
     Button loginButton;
@@ -36,6 +48,24 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityMVP
             @Override
             public void onClick(View v) {
                 presenter.loginButtonClicked();
+            }
+        });
+
+        //Ejemplo de uso de la api de twitch con retrofit
+        Call<Twitch> call = twitchAPI.getTopGames("g0t3ju4q8e265peeuad9j7fklrcxtz");
+
+        call.enqueue(new Callback<Twitch>() {
+            @Override
+            public void onResponse(Call<Twitch> call, Response<Twitch> response) {
+                List<Datum> topGames = response.body().getData();
+                for (Datum game: topGames){
+                    System.out.println(game.getName());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Twitch> call, Throwable t) {
+                t.printStackTrace();
             }
         });
     }

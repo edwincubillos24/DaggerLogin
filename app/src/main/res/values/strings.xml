@@ -3,4 +3,8 @@
     <string name="first_name">Nombre</string>
     <string name="last_name">Apellido</string>
     <string name="login">Entrar</string>
+    <string name="search">Buscar</string>
+    <string name="id">Id</string>
+    <string name="box">box</string>
+    <string name="name">Digite nombre del juego</string>
 </resources>
