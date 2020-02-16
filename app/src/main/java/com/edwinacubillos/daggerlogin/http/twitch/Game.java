@@ -4,7 +4,7 @@ package com.edwinacubillos.daggerlogin.http.twitch;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Datum {
+public class Game {
 
     @SerializedName("id")
     @Expose

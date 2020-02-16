@@ -1,24 +1,24 @@
 
-package com.edwinacubillos.daggerlogin.http.twitch;
+package com.edwinacubillos.daggerlogin.http.streams;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Twitch {
+public class Streams {
 
     @SerializedName("data")
     @Expose
-    private List<Game> data = null;
+    private List<Datum> data = null;
     @SerializedName("pagination")
     @Expose
     private Pagination pagination;
 
-    public List<Game> getGame() {
+    public List<Datum> getData() {
         return data;
     }
 
-    public void setData(List<Game> data) {
+    public void setData(List<Datum> data) {
         this.data = data;
     }
 

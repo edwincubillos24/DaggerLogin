@@ -1,9 +1,8 @@
 package com.edwinacubillos.daggerlogin.http;
 
-import com.edwinacubillos.daggerlogin.http.twitch.Twitch;
-
 import dagger.Module;
 import dagger.Provides;
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -17,7 +16,7 @@ public class TwitchModule {
     @Provides
     public OkHttpClient provideHttpClient(){
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        interceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
         return new OkHttpClient.Builder().addInterceptor(interceptor).build();
     }
 
@@ -27,6 +26,7 @@ public class TwitchModule {
                 .baseUrl(baseURL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create().create())
                 .build();
     }
 

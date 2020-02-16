@@ -1,7 +1,9 @@
 package com.edwinacubillos.daggerlogin.http;
 
+import com.edwinacubillos.daggerlogin.http.streams.Streams;
 import com.edwinacubillos.daggerlogin.http.twitch.Twitch;
 
+import io.reactivex.rxjava3.core.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -17,6 +19,16 @@ public interface TwitchAPI {
             @Header("Client-Id") String clientId,
             @Query("name") String name);
 
+    @GET("games/top")
+    Observable<Twitch> getTopGamesObservable(@Header ("Client-Id") String clientId);
+
+    @GET("streams")
+    Observable<Streams> getStreamsObservable(@Header ("Client-Id") String clientId);
+
+    @GET("games")
+    Observable<Twitch> getGamesObservable(
+            @Header("Client-Id") String clientId,
+            @Query("id") String id);
 }
 
     /* sin ID

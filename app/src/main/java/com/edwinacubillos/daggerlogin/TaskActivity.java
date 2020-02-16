@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.edwinacubillos.daggerlogin.http.TwitchAPI;
-import com.edwinacubillos.daggerlogin.http.twitch.Datum;
 import com.edwinacubillos.daggerlogin.http.twitch.Twitch;
 import com.edwinacubillos.daggerlogin.root.App;
 
@@ -49,8 +48,8 @@ public class TaskActivity extends AppCompatActivity {
                 call.enqueue(new Callback<Twitch>() {
                     @Override
                     public void onResponse(Call<Twitch> call, Response<Twitch> response) {
-                        idGame.setText(response.body().getData().get(0).getId());
-                        boxGame.setText(response.body().getData().get(0).getBoxArtUrl());
+                        idGame.setText(response.body().getGame().get(0).getId());
+                        boxGame.setText(response.body().getGame().get(0).getBoxArtUrl());
                     }
 
                     @Override
