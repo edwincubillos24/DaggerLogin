@@ -1,5 +1,7 @@
 package com.edwinacubillos.daggerlogin.login;
 
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +20,12 @@ import com.edwinacubillos.daggerlogin.root.App;
 
 import javax.inject.Inject;
 
+import butterknife.BindColor;
+import butterknife.BindDrawable;
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
@@ -27,7 +35,6 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-
 public class LoginActivity extends AppCompatActivity implements LoginActivityMVP.View {
 
     @Inject
@@ -36,28 +43,41 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityMVP
     @Inject
     TwitchAPI twitchAPI;
 
-    private String TWITCH_KEY="g0t3ju4q8e265peeuad9j7fklrcxtz";
+    @BindView(R.id.et_first_name)
+    EditText firstName;
 
-    EditText firstName, lastName;
+    @BindView(R.id.et_last_name)
+    EditText lastName;
+
+    @BindView(R.id.bt_login)
     Button loginButton;
+
+    @OnClick(R.id.bt_login)
+    public void searchButtonClicked(){
+        presenter.loginButtonClicked();
+    }
+
+    @BindString(R.string.app_name)
+    String title;
+
+    @BindDrawable(R.drawable.ic_launcher_foreground)
+    Drawable imageForeground;
+
+    @BindColor(R.color.colorPrimary)
+    ColorStateList mainColor;
+
+
+    private String TWITCH_KEY = "g0t3ju4q8e265peeuad9j7fklrcxtz";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        ButterKnife.bind(this);
+
         ((App) getApplication()).getComponent().inject(this);
 
-        firstName = findViewById(R.id.et_first_name);
-        lastName = findViewById(R.id.et_last_name);
-        loginButton = findViewById(R.id.bt_login);
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.loginButtonClicked();
-            }
-        });
 /*
         //Ejemplo de uso de la api de twitch con retrofit
         Call<Twitch> call = twitchAPI.getTopGames("g0t3ju4q8e265peeuad9j7fklrcxtz");
@@ -80,7 +100,7 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityMVP
         twitchAPI.getStreamsObservable(TWITCH_KEY)
                 .flatMap((Function<Streams, Observable<Datum>>) streams ->
                         Observable.fromIterable(streams.getData()))
-                .filter (datum -> datum.getLanguage().equals("en") && datum.getViewerCount()>10)
+                .filter(datum -> datum.getLanguage().equals("en") && datum.getViewerCount() > 10)
                 .flatMap((Function<Datum, ObservableSource<Twitch>>) datum ->
                         twitchAPI.getGamesObservable(TWITCH_KEY, datum.getGameId()))
                 .flatMap((Function<Twitch, Observable<Game>>) twitch -> Observable.fromIterable(twitch.getGame()))
@@ -108,7 +128,6 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityMVP
 
                     }
                 });
-
 
         twitchAPI.getTopGamesObservable("g0t3ju4q8e265peeuad9j7fklrcxtz")
                 .flatMap((Function<Twitch, Observable<Game>>) twitch ->
@@ -151,7 +170,6 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityMVP
                     }
                 });
     }
-
 
     @Override
     protected void onResume() {
